@@ -3,6 +3,7 @@ const { guildId } = require("../config.json");
 const plusmoins = require("../utils/plusmoins");
 const justeprix = require("../utils/justeprix");
 const loto = require("../utils/loto");
+const bourse = require("../utils/bourse");
 
 module.exports = {
     name: 'ready',
@@ -26,6 +27,8 @@ module.exports = {
                         await justeprix.create(guild, schedule.id);
                     } else if (schedule.type === 'loto') {
                         await loto.create(guild, schedule.id);
+                    } else if (schedule.type === 'bourse') {
+                        await bourse.create(guild, schedule.id);
                     }
                 }
             }

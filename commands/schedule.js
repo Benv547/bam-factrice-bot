@@ -14,6 +14,7 @@ module.exports = {
                     { name: 'Plus/Moins', value: 'plusmoins' },
                     { name: 'Juste prix', value: 'justeprix' },
                     { name: 'Loto', value: 'loto' },
+                    { name: 'Bourse', value: 'bourse' },
                 ))
         .addStringOption(option =>
             option.setName('date')
