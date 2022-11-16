@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+
+ facteur:
+  build: .
+  networks:
+   - isolated_nw2
+  restart: on-failure
+  volumes:
+   - /tmp
+  container_name: facteur
+  depends_on:
+   - pgdb
+ pgdb:
+  image: postgres:15.0
+  ports:
+   - 5432:5432
+  networks:
+   - isolated_nw2
+  volumes:
+   - db-data:/var/lib/postgresql/data
+  environment:
+   POSTGRES_DB: bouteille
+   POSTGRES_USER: postgres
+   POSTGRES_PASSWORD: superFacteurBouteille2052
+  container_name: postgres
+
+networks:
+ isolated_nw2:
+  driver: bridge
+
+volumes:
+ db-data:
+  driver: local
