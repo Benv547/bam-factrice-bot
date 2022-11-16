@@ -5,6 +5,10 @@ module.exports = {
         const pool = db.getPool();
         return await pool.query('INSERT INTO "Schedule" ("type", "start", "end") VALUES ($1, $2, $3)', [type, start, end]);
     },
+    createScheduleWithValue: async function (type, start, end, value) {
+        const pool = db.getPool();
+        return await pool.query('INSERT INTO "Schedule" ("type", "start", "end", "value") VALUES ($1, $2, $3, $4)', [type, start, end, value]);
+    },
     getNowSchedulesActive: async function () {
         const pool = db.getPool();
         const results = await pool.query('SELECT * FROM "Schedule" WHERE "start" <= NOW() AT TIME ZONE \'Europe/Paris\' AND "active" = true');
