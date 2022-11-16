@@ -9,8 +9,15 @@ const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 let questions = [];
 let currentQuestion = 0;
 let gain = 100;
-const rules = '';
-const welcome = 'Bienvenue dans **le quiz** !';
+const rules = '- Les réponses peuvent être à **choix ou à réponses libres**\n' +
+    '- Certaines questions possèdent une image, soyez attentifs !\n' +
+    '- Vous avez un **temps limité pour répondre** à chaque question\n' +
+    '- Chaque bonne réponse vous rapporte **' + gain + ' pièces d\'or**\n';
+const welcome = 'Bienvenue dans **le quiz de Bouteille à la mer** !\n\n' +
+    'Vous êtes ici pour tenter de gagner de l\'argent.\n' +
+    'Pour cela, vous devez répondre à des questions.\n' +
+    'Plus vous aurez de bonnes réponses, plus vous gagnerez d\'argent.\n\n' +
+    'Bonne chance !';
 const channel_name = '🙋️│quiz';
 const event_name = 'Le quiz';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/person-raising-hand_1f64b.png';
@@ -56,7 +63,7 @@ module.exports = {
                     }
 
                     const correctAnswer = answers[question.correct_answer-1];
-                    const embed = global.createFullEmbed(`Question ${currentQuestion + 1}`, question.question + ans, question.image_url, null, null, 'Vous avez ' + question.delay + ' secondes pour répondre !', false);
+                    const embed = global.createFullEmbed(`Question ${currentQuestion + 1}`, question.question + ans, null, question.image_url, null, 'Vous avez ' + question.delay + ' secondes pour répondre !', false);
                     const message = await channel.send({ embeds: [embed], components: [row] });
 
                     setTimeout(async () => {

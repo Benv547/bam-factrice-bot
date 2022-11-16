@@ -5,12 +5,18 @@ const orAction = require("../utils/orAction");
 
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
-let turn = 5;
+let turn = 10;
 let start = 100;
-const rules = '';
-const welcome = 'Bienvenue dans **la bourse** !';
+const rules = '- Vous avez **' + turn + ' tours** pour gagner le plus d\'argent possible\n' +
+    '- Vous pouvez acheter ou vendre autant d\'actions que vous voulez à chaque tour\n' +
+    '- Vous devez posséder les pièces d\'or nécessaires pour acheter des actions\n' +
+    '- Toutes les actions achetées seront vendues automatiquement à la fin du dernier tour\n';
+const welcome = 'Bienvenue à vous, **jeunes entrepreneurs** !\n\n' +
+    'Vous êtes ici pour **investir dans notre entreprise** et gagner de l\'argent.\n' +
+    'Pour cela, vous devez **acheter et vendre des actions** quand la bourse est ouverte.\n\n' +
+    'Bonne chance !';
 const channel_name = '📈│bourse';
-const event_name = 'La bourse';
+const event_name = 'La bourse de Bouteille à la mer';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/chart-increasing_1f4c8.png';
 
 module.exports = {
@@ -22,7 +28,7 @@ module.exports = {
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -65,7 +71,7 @@ module.exports = {
                         emoji = '📉';
                     }
 
-                    let embed = global.createFullEmbed('La bourse est ouverte', `${emoji} La valeur de l'action est de **${start}€**`, null, null, null, null, false);
+                    let embed = global.createFullEmbed('La bourse est ouverte', `${emoji} La valeur de l'action est de **${start}€**`, null, null, null, 'Vous avez 1 minute pour acheter ou vendre des actions', false);
                     const row = new ActionRowBuilder()
                         .addComponents(
                             new ButtonBuilder()
@@ -89,6 +95,8 @@ module.exports = {
 
         turn = 5;
         start = 100;
-        await createBourse(channel, id);
+        setTimeout(async () => {
+            await createBourse(channel, id);
+        }, 1000 * 60);
     }
 };

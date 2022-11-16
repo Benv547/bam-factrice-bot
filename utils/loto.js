@@ -7,10 +7,15 @@ const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 const mise = 100;
 const number = 5;
-const rules = 'Le but du jeu est de trouver les **' + number + ' nombres gagnants**.\n' +
-    'Pour cela, vous devez **remplir une grille** de ' + number + ' nombres allant de **1 à 99** (*ex: 1 - 2 - 3 - ...*).\n\n' +
-    'Pour jouer, il vous faut **au moins ' + mise + ' pièce(s) d\'or**.\n';
-const welcome = 'Bienvenue dans le jeu du **Loto** !';
+const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
+    '- Vous devez remplir **une grille de ' + number + ' nombres** allant de **1 à 99** séparés par des tirets\n' +
+    '- Vous ne pouvez pas mettre deux fois le même nombre\n' +
+    '- Une seule grille par personne\n';
+const welcome = 'Bienvenue dans le loto de **Bouteille à la mer** !\n\n' +
+    'Vous êtes ici pour tenter de gagner de l\'argent.\n' +
+    'Pour cela, vous devez **remplir une grille de ' + number + ' nombres** allant de **1 à 99**.\n' +
+    'Plus vous aurez de nombres justes, plus vous gagnerez d\'argent.\n\n' +
+    'Bonne chance !';
 const channel_name = '💸│loto';
 const event_name = 'Loto';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/money-with-wings_1f4b8.png';
@@ -24,7 +29,7 @@ module.exports = {
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -106,6 +111,6 @@ module.exports = {
             }, 1000 * 60 * 5);
 
 
-        }, 1000 * 60 * 5);
+        }, 1000 * 60 * 2);
     },
 };

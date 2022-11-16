@@ -28,7 +28,7 @@ module.exports = {
                 .setDescription(welcome_message)
                 .setColor(0x2f3136)
                 .setTimestamp();
-            await channel.send({ embeds: [embed] });
+            await channel.send({ content: '<@&817346750464917544> **Evénement**', embeds: [embed] });
         }
 
         return channel;

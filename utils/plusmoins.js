@@ -9,14 +9,16 @@ const playing_card_value = ['AS', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
 const playing_card_color = ['PIQUE', 'COEUR', 'CARREAU', 'TREFLE'];
 
 
-const rules = 'Le but du jeu est **de deviner si la carte suivante sera plus ou moins forte** que la précédente.\n' +
-        '**Pour jouer**, il suffit de cliquer sur le bouton correspondant à votre choix (*plus, égal ou moins*).\n\n' +
-        'Vous aurez **5 minutes pour jouer** et vous devez miser **100 pièces d\'or**.\n\n';
-const welcome = 'Bienvenue dans le jeu du **Plus ou Moins** !';
+const mise = 100;
+const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
+    '- **l\'AS** est la carte la moins forte et le **ROI** la plus forte\n' +
+    '- Les couleurs n\'ont aucune importance\n';
+const welcome = 'Bienvenue dans le jeu du **plus ou moins** !\n\n' +
+    'Vous allez devoir deviner si la **carte suivante sera plus ou moins forte** (ou égale) que la précédente.\n\n' +
+    'Bonne chance !';
 const channel_name = '🧮│plus_ou_moins';
 const event_name = 'Plus ou Moins';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/abacus_1f9ee.png';
-const mise = 100;
 
 module.exports = {
     create: async (guild, id) => {
@@ -27,7 +29,7 @@ module.exports = {
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -39,7 +41,7 @@ module.exports = {
             const color = playing_card_color[Math.floor(Math.random() * playing_card_color.length)];
 
             // create the embed
-            const embed = global.createFullEmbed(event_name, `La carte est le **${value} de ${color}**, quelle sera la suivante ?`, null, null, null, null, false);
+            const embed = global.createFullEmbed(event_name, `La carte est le **${value} de ${color}**, quelle sera la suivante ?`, null, null, null, 'Vous avez 3 minutes pour répondre', false);
             const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -98,9 +100,9 @@ module.exports = {
                 await scheduleDB.setInactive(id);
                 await global.deleteChannel(id, channel);
                 await responseDB.deleteAllResponses(id);
-            }, 1000 * 60 * 5);
+            }, 1000 * 60 * 3);
 
 
-        }, 1000 * 60 * 5);
+        }, 1000 * 60 * 2);
     },
 };
