@@ -52,5 +52,9 @@ module.exports = {
             return null;
         }
         return results.rows[0];
+    },
+    setValue: async function (id, value) {
+        const pool = db.getPool();
+        return await pool.query('UPDATE "Schedule" SET "value" = $1 WHERE "id" = $2', [value, id]);
     }
 };

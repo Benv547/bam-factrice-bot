@@ -12,6 +12,7 @@ module.exports = {
                 .setRequired(true)
                 .setChoices(
                     { name: 'Plus/Moins', value: 'plusmoins' },
+                    { name: 'Juste prix', value: 'justeprix' },
                 ))
         .addStringOption(option =>
             option.setName('date')

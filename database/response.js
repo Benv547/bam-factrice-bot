@@ -24,5 +24,9 @@ module.exports = {
             return null;
         }
         return results.rows[0];
+    },
+    updateResponse: async function (id_schedule, id_user, response) {
+        const pool = db.getPool();
+        return await pool.query('UPDATE "Response" SET "response" = $3 WHERE "id_schedule" = $1 AND "id_user" = $2', [id_schedule, id_user, response]);
     }
 };
