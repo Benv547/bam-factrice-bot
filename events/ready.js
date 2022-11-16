@@ -2,6 +2,7 @@ const scheduleDB = require("../database/schedule");
 const { guildId } = require("../config.json");
 const plusmoins = require("../utils/plusmoins");
 const justeprix = require("../utils/justeprix");
+const loto = require("../utils/loto");
 
 module.exports = {
     name: 'ready',
@@ -20,11 +21,11 @@ module.exports = {
                 // for each schedule
                 for (const schedule of schedules) {
                     if (schedule.type === 'plusmoins') {
-                        // create the channel
                         await plusmoins.create(guild, schedule.id);
                     } else if (schedule.type === 'justeprix') {
-                        // create the channel
                         await justeprix.create(guild, schedule.id);
+                    } else if (schedule.type === 'loto') {
+                        await loto.create(guild, schedule.id);
                     }
                 }
             }
