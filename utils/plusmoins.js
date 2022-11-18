@@ -1,6 +1,7 @@
 const global = require('./global.js');
 const scheduleDB = require("../database/schedule");
 const responseDB = require("../database/response");
+const recordDB = require("../database/record");
 const orAction = require("../utils/orAction");
 
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
@@ -8,6 +9,7 @@ const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 const playing_card_value = ['AS', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'VALET', 'DAME', 'ROI'];
 const playing_card_color = ['PIQUE', 'COEUR', 'CARREAU', 'TREFLE'];
 
+let participants = [];
 
 const mise = 100;
 const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
@@ -90,6 +92,10 @@ module.exports = {
                         } else {
                             texte += `📉 <@${response.id_user}> a perdu ${mise} pièces d'or !\n`;
                         }
+
+                        if (participants.includes(response.id_user) === false) {
+                            participants.push(response.id_user);
+                        }
                     }
                     embed.setDescription(texte);
                 } else {
@@ -98,7 +104,10 @@ module.exports = {
                 await channel.send({ embeds: [embed] });
 
                 await scheduleDB.setInactive(id);
-                await global.deleteChannel(id, channel);
+                if(await global.deleteChannel(id, channel)) {
+                    await recordDB.insertRecord(participants.length, 'event');
+                    participants = [];
+                }
                 await responseDB.deleteAllResponses(id);
             }, 1000 * 60 * 3);
 

@@ -42,7 +42,9 @@ module.exports = {
                 // delete channel
                 await channel.delete();
             }, 1000 * 60 * 5);
+            return true;
         }
+        return false;
     },
     createFullEmbed: function (title, description, thumbnail, image, color, footer, timestamp = true) {
         const embed = new EmbedBuilder();

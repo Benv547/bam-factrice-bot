@@ -1,12 +1,15 @@
 const global = require('./global.js');
 const scheduleDB = require("../database/schedule");
 const responseDB = require("../database/response");
+const recordDB = require("../database/record");
 const {ActionRowBuilder, ButtonBuilder} = require("discord.js");
 
+let participants = [];
+
 const mise = 10;
-const rules = '- Le but est de deviner un nombre entier **entre 1 et 10 000**\n' +
+const rules = '- Le but est de deviner un nombre entier **entre 1 et 100 000**\n' +
     '- Vous pouvez donner autant de proposition que vous voulez à chaque tour\n' +
-    '- Vous avez **5 minutes** pour trouver le nombre\n' +
+    '- Vous avez **3 minutes** pour trouver le nombre\n' +
     '- Chaque proposition vous coûte **' + mise + ' pièces d\'or**\n' +
     '- Si vous trouvez le nombre, vous gagnez **' + mise + ' pièces d\'or**\n';
 const welcome = 'Bienvenue dans le **jeu du juste prix** !\n\n' +
@@ -34,11 +37,11 @@ module.exports = {
         setTimeout(async () => {
 
             // select a random number between 1 and 1000
-            const value = Math.floor(Math.random() * 10000) + 1;
+            const value = Math.floor(Math.random() * 100000) + 1;
             await scheduleDB.setValue(id, value);
 
             // create the embed
-            const embed = global.createFullEmbed(event_name, `Je pense à un nombre entre 1 et 10 000, quel est le juste prix ?`, null, null, null, null, false);
+            const embed = global.createFullEmbed(event_name, `Je pense à un nombre entre 1 et 100 000, quel est le juste prix ?`, null, null, null, 'Vous avez 3 minutes pour trouver le juste prix !', false);
             const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -65,6 +68,10 @@ module.exports = {
                         if (responseValue === value) {
                             texte += `📈 <@${response.id_user}> a gagné ${gain} pièces d'or !\n`;
                         }
+
+                        if (participants.includes(response.id_user) === false) {
+                            participants.push(response.id_user);
+                        }
                     }
                     embed.setDescription(texte);
                 } else {
@@ -74,9 +81,12 @@ module.exports = {
 
                 await scheduleDB.setValue(id, null);
                 await scheduleDB.setInactive(id);
-                await global.deleteChannel(id, channel);
+                if(await global.deleteChannel(id, channel)) {
+                    await recordDB.insertRecord(participants.length, 'event');
+                    participants = [];
+                }
                 await responseDB.deleteAllResponses(id);
-            }, 1000 * 60 * 5);
+            }, 1000 * 60 * 3);
 
 
         }, 1000 * 60 * 2);

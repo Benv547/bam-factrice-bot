@@ -2,9 +2,12 @@ const global = require('./global.js');
 const scheduleDB = require("../database/schedule");
 const responseDB = require("../database/response");
 const quizDB = require("../database/quiz");
+const recordDB = require("../database/record");
 const orAction = require("../utils/orAction");
 
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
+
+let participants = [];
 
 let questions = [];
 let currentQuestion = 0;
@@ -38,7 +41,10 @@ module.exports = {
 
         async function endQuiz(channel, id) {
             await scheduleDB.setInactive(id);
-            await global.deleteChannel(id, channel);
+            if(await global.deleteChannel(id, channel)) {
+                await recordDB.insertRecord(participants.length, 'event');
+                participants = [];
+            }
             await responseDB.deleteAllResponses(id);
         }
 
@@ -84,6 +90,10 @@ module.exports = {
                                         await orAction.increment(response.id_user, gain);
                                         users += `<@${response.id_user}>\n`;
                                     }
+                                }
+
+                                if (participants.includes(response.id_user) === false) {
+                                    participants.push(response.id_user);
                                 }
                             }
                         }

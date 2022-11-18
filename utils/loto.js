@@ -4,6 +4,9 @@ const responseDB = require("../database/response");
 const orAction = require("../utils/orAction");
 
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const recordDB = require("../database/record");
+
+let participants = [];
 
 const mise = 100;
 const number = 5;
@@ -98,6 +101,10 @@ module.exports = {
                         } else {
                             texte += `📉 <@${response.id_user}> a perdu ${mise} pièces d'or !\n`;
                         }
+
+                        if (participants.includes(response.id_user) === false) {
+                            participants.push(response.id_user);
+                        }
                     }
                     embed.setDescription(texte);
                 } else {
@@ -106,7 +113,10 @@ module.exports = {
                 await channel.send({ embeds: [embed] });
 
                 await scheduleDB.setInactive(id);
-                await global.deleteChannel(id, channel);
+                if(await global.deleteChannel(id, channel)) {
+                    await recordDB.insertRecord(participants.length, 'event');
+                    participants = [];
+                }
                 await responseDB.deleteAllResponses(id);
             }, 1000 * 60 * 5);
 

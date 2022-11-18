@@ -4,6 +4,9 @@ const responseDB = require("../database/response");
 const orAction = require("../utils/orAction");
 
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const recordDB = require("../database/record");
+
+let participants = [];
 
 let turn = 10;
 let start = 100;
@@ -43,6 +46,10 @@ module.exports = {
                         // Add money to user
                         await orAction.increment(response.id_user, value * start);
                     }
+
+                    if (participants.includes(response.id_user) === false) {
+                        participants.push(response.id_user);
+                    }
                 }
             }
 
@@ -51,7 +58,10 @@ module.exports = {
 
             await scheduleDB.setValue(id, null);
             await scheduleDB.setInactive(id);
-            await global.deleteChannel(id, channel);
+            if(await global.deleteChannel(id, channel)) {
+                await recordDB.insertRecord(participants.length, 'event');
+                participants = [];
+            }
             await responseDB.deleteAllResponses(id);
         }
 
