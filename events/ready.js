@@ -18,7 +18,7 @@ module.exports = {
             const schedules = await scheduleDB.getNowSchedulesNotActive();
             if (schedules && schedules.length > 0) {
                 // get the guild
-                const guild = client.guilds.cache.get(guildId);
+                const guild = await client.guilds.fetch(guildId);
 
                 // for each schedule
                 for (const schedule of schedules) {
