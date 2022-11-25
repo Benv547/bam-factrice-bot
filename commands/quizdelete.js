@@ -12,7 +12,7 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
         const name = interaction.options.get('name').value;
-        await quizDB.deleteQuiz('quiz');
+        await quizDB.deleteQuiz(name);
         return await interaction.reply({ content: 'Le quiz **' + name + '** a bien été supprimé.', ephemeral: true });
     }
 };

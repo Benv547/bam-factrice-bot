@@ -45,14 +45,14 @@ module.exports = {
             return await interaction.reply({ content: 'Le quiz n\'existe pas.', ephemeral: true });
         }
 
-        await interaction.guild.scheduledEvents.create({
+        const schedule = await interaction.guild.scheduledEvents.create({
             name: 'Quiz ' + name,
             privacyLevel: 'GUILD_ONLY',
             scheduledStartTime: date_start,
             description: 'Venez participer au Quiz ' + name + '\n(*Cet événement a été créé automatiquement par un bot.*)',
         });
 
-        await scheduleDB.createScheduleWithValue('quiz', date_start, date_end, name);
+        await scheduleDB.createScheduleWithValue(schedule.id, 'quiz', date_start, date_end, name);
         return await interaction.reply({ content: 'Le quiz **' + name + '** a bien été ajouté le ' + date_value + ' à ' + hour_start_value + '.', ephemeral: true });
     }
 };

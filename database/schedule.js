@@ -1,13 +1,13 @@
 const db = require('./pgpool.js');
 
 module.exports = {
-    createSchedule: async function (type, start, end) {
+    createSchedule: async function (id, type, start, end) {
         const pool = db.getPool();
-        return await pool.query('INSERT INTO "Schedule" ("type", "start", "end") VALUES ($1, $2, $3)', [type, start, end]);
+        return await pool.query('INSERT INTO "Schedule" ("id", "type", "start", "end") VALUES ($1, $2, $3, $4)', [id, type, start, end]);
     },
-    createScheduleWithValue: async function (type, start, end, value) {
+    createScheduleWithValue: async function (id, type, start, end, value) {
         const pool = db.getPool();
-        return await pool.query('INSERT INTO "Schedule" ("type", "start", "end", "value") VALUES ($1, $2, $3, $4)', [type, start, end, value]);
+        return await pool.query('INSERT INTO "Schedule" ("id", "type", "start", "end", "value") VALUES ($1, $2, $3, $4, $5)', [id, type, start, end, value]);
     },
     getNowSchedulesActive: async function () {
         const pool = db.getPool();

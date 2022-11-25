@@ -56,8 +56,6 @@ module.exports = {
             return await interaction.reply({ content: 'L\'heure de début doit être inférieure à l\'heure de fin.', ephemeral: true });
         }
 
-        await scheduleDB.createSchedule(name, date_start, date_end);
-
         let real_name = name;
         // let image = 'https://cdn.discordapp.com/attachments/841000000000000000/841000000000000000/unknown.png';
         if (name === 'plusmoins') {
@@ -68,7 +66,7 @@ module.exports = {
         }
         real_name = real_name.charAt(0).toUpperCase() + real_name.slice(1);
 
-        await interaction.guild.scheduledEvents.create({
+        const schedule = await interaction.guild.scheduledEvents.create({
             name: real_name,
             entityType: GuildScheduledEventEntityType.External,
             entityMetadata: {
@@ -79,6 +77,8 @@ module.exports = {
             scheduledEndTime: date_end,
             description: 'Venez participer au **' + real_name + '** le **' + date_value + '** de **' + hour_start_value + ' à ' + hour_end_value + '** !\nN\'oubliez pas de **prendre la notification "EVENEMENT"** disponible dans <#825800880095625236> pour être notifié lors du lancement.\n\nToutes les règles seront expliquées lors du début de l\'événement.\n(*Cet événement a été créé automatiquement par un bot.*)',
         });
+
+        await scheduleDB.createSchedule(schedule.id, name, date_start, date_end);
 
         return await interaction.reply({ content: 'L\'événement a bien été ajouté le ' + date_value + ' de ' + hour_start_value + ' à ' + hour_end_value + '.', ephemeral: true });
     }
