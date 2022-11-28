@@ -57,12 +57,20 @@ module.exports = {
         }
 
         let real_name = name;
-        // let image = 'https://cdn.discordapp.com/attachments/841000000000000000/841000000000000000/unknown.png';
+        let image = null;
         if (name === 'plusmoins') {
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
             real_name = 'Plus/Moins';
         }
         else if (name === 'justeprix') {
+            // image
             real_name = 'Juste prix';
+        }
+        else if (name === 'bourse') {
+            // image
+        }
+        else if (name === 'loto') {
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
         }
         real_name = real_name.charAt(0).toUpperCase() + real_name.slice(1);
 

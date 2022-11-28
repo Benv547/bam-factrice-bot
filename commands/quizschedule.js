@@ -40,7 +40,7 @@ module.exports = {
         const date_start = new Date(date_with_hour_start);
         const date_end = date_start;
 
-        // let image = 'https://cdn.discordapp.com/attachments/841000000000000000/841000000000000000/unknown.png';
+        let image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
         if (await quizDB.getQuiz(name) === null) {
             return await interaction.reply({ content: 'Le quiz n\'existe pas.', ephemeral: true });
         }
@@ -50,6 +50,7 @@ module.exports = {
             privacyLevel: 'GUILD_ONLY',
             scheduledStartTime: date_start,
             description: 'Venez participer au Quiz ' + name + '\n(*Cet événement a été créé automatiquement par un bot.*)',
+            image: image,
         });
 
         await scheduleDB.createScheduleWithValue(schedule.id, 'quiz', date_start, date_end, name);

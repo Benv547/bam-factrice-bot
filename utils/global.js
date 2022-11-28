@@ -4,7 +4,7 @@ const scheduleDB = require("../database/schedule");
 
 module.exports = {
     name: 'global',
-    createChannel: async (guild, channel_name, welcome_message) => {
+    createChannel: async (guild, channel_name, welcome_message, image) => {
 
         // Find channel in category
         let channel = guild.channels.cache.find((channel) => channel.name === channel_name && channel.parentId === categoryEvent);
@@ -27,6 +27,7 @@ module.exports = {
                 .setTitle('Bienvenue dans le salon ' + channel_name)
                 .setDescription(welcome_message)
                 .setColor(0x2f3136)
+                .setImage(image)
                 .setTimestamp();
             await channel.send({ content: '<@&817346750464917544> **Evénement**', embeds: [embed] });
         }

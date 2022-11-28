@@ -32,8 +32,10 @@ module.exports = {
         await scheduleDB.setActive(id);
         const event = await scheduleDB.get(id);
 
+        const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
+
         // Create channel
-        const channel = await global.createChannel(guild, channel_name, welcome);
+        const channel = await global.createChannel(guild, channel_name, welcome, image);
         // Create embed
         const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
