@@ -83,7 +83,8 @@ module.exports = {
             privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
             scheduledStartTime: date_start,
             scheduledEndTime: date_end,
-            description: 'Venez participer au **' + real_name + '** le **' + date_value + '** de **' + hour_start_value + ' à ' + hour_end_value + '** !\nN\'oubliez pas de **prendre la notification "EVENEMENT"** disponible dans <#825800880095625236> pour être notifié lors du lancement.\n\nToutes les règles seront expliquées lors du début de l\'événement.\n(*Cet événement a été créé automatiquement par un bot.*)',
+            description: 'Venez participer au **' + real_name + '** le **' + date_value + '** de **' + hour_start_value + ' à ' + hour_end_value + '** !\nN\'oubliez pas de **prendre la notification "EVENEMENT"** dans <#825800880095625236> pour être notifié lors du lancement.\n\nToutes les règles seront expliquées lors du début de l\'événement.\n(*Cet événement a été créé automatiquement par un bot.*)',
+            image: image,
         });
 
         await scheduleDB.createSchedule(schedule.id, name, date_start, date_end);

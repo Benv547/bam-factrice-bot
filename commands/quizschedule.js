@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, GuildScheduledEventEntityType, GuildScheduledEventPrivacyLevel} = require('discord.js');
 const scheduleDB = require('../database/schedule.js');
 const quizDB = require('../database/quiz.js');
 
@@ -38,7 +38,12 @@ module.exports = {
 
         const date_with_hour_start = date_value + ' ' + hour_start_value + ':00';
         const date_start = new Date(date_with_hour_start);
-        const date_end = date_start;
+        let date_end = new Date(date_start);
+        date_end.setHours(date_end.getHours() + 1);
+
+        console.log(date_start);
+        console.log(date_end);
+
 
         let image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
         if (await quizDB.getQuiz(name) === null) {
@@ -47,9 +52,14 @@ module.exports = {
 
         const schedule = await interaction.guild.scheduledEvents.create({
             name: 'Quiz ' + name,
-            privacyLevel: 'GUILD_ONLY',
+            entityType: GuildScheduledEventEntityType.External,
+            entityMetadata: {
+                location: 'https://discord.gg/9apgeeBYS9',
+            },
+            privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
             scheduledStartTime: date_start,
-            description: 'Venez participer au Quiz ' + name + '\n(*Cet événement a été créé automatiquement par un bot.*)',
+            scheduledEndTime: date_end,
+            description: 'Venez participer au **Quiz ' + name + '** le **' + date_value + '** à **' + hour_start_value + '** !\nN\'oubliez pas de **prendre la notification "EVENEMENT"** dans <#825800880095625236> pour être notifié lors du lancement.\n\nToutes les règles seront expliquées lors du début de l\'événement.\n(*Cet événement a été créé automatiquement par un bot.*)',
             image: image,
         });
 
