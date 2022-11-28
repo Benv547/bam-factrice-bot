@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS "Quiz" CASCADE;
 DROP TABLE IF EXISTS "Question" CASCADE;
 
 CREATE TABLE "Schedule" (
-    "id" SERIAL PRIMARY KEY,
+    "id" BIGINT PRIMARY KEY,
     "type" VARCHAR(255) NOT NULL,
     "start" TIMESTAMP NOT NULL,
     "end" TIMESTAMP NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE "Question" (
 );
 
 CREATE TABLE "Response" (
-    "id_schedule" INTEGER NOT NULL,
+    "id_schedule" bigint NOT NULL,
     "id_user" bigint NOT NULL,
     "response" text NOT NULL
 );

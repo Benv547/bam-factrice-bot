@@ -39,7 +39,7 @@ module.exports = {
         const date_with_hour_start = date_value + ' ' + hour_start_value + ':00';
         const date_start = new Date(date_with_hour_start);
         let date_end = new Date(date_start);
-        date_end.setHours(date_end.getHours() + 1);
+        date_end.setMinutes(date_end.getMinutes() + 30);
 
         console.log(date_start);
         console.log(date_end);

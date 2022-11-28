@@ -35,9 +35,9 @@ module.exports = {
         const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
 
         // Create channel
-        const channel = await global.createChannel(guild, channel_name, welcome, image);
+        const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain quiz va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -47,7 +47,7 @@ module.exports = {
                 await recordDB.insertRecord(participants.length, 'event');
                 participants = [];
             }
-            await responseDB.deleteAllResponses(id);
+            await scheduleDB.deleteSchedule(id);
         }
 
         async function createQuiz(channel, id) {
@@ -102,6 +102,8 @@ module.exports = {
 
                         const embed = global.createFullEmbed(`Question ${currentQuestion + 1}`, `La bonne réponse était :\n**${correctAnswer}**\n\n` + users, question.image_url, null, null, false);
                         await message.edit({ embeds: [embed], components: [] });
+
+                        await responseDB.deleteAllResponses(id);
 
                         currentQuestion++;
                         await createQuiz(channel, id);

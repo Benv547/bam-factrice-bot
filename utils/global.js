@@ -4,7 +4,7 @@ const scheduleDB = require("../database/schedule");
 
 module.exports = {
     name: 'global',
-    createChannel: async (guild, channel_name, welcome_message, image) => {
+    createChannel: async (guild, channel_name, welcome_message, image, id) => {
 
         // Find channel in category
         let channel = guild.channels.cache.find((channel) => channel.name === channel_name && channel.parentId === categoryEvent);
@@ -18,6 +18,13 @@ module.exports = {
             type: ChannelType.GuildText,
             parent: categoryEvent
         });
+
+        await guild.scheduledEvents.edit(id, {
+            entityMetadata: {
+                location: '<#' + channel.id + '>',
+            },
+        })
+
         // Set cooldown
         await channel.setRateLimitPerUser(60);
 

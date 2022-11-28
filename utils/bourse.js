@@ -31,7 +31,7 @@ module.exports = {
         const image = null;
 
         // Create channel
-        const channel = await global.createChannel(guild, channel_name, welcome, image);
+        const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
         const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
