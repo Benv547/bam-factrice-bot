@@ -70,7 +70,7 @@ module.exports = {
             // image
         }
         else if (name === 'loto') {
-            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
         }
         real_name = real_name.charAt(0).toUpperCase() + real_name.slice(1);
 

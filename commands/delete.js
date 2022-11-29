@@ -13,11 +13,13 @@ module.exports = {
     async execute(interaction) {
         const numero = interaction.options.get('numero').value;
 
-        const event = await scheduleDB.get(numero);
-        if (event) {
-            const schedule = await interaction.guild.scheduledEvents.fetch(event.id);
-            await schedule.delete();
-        }
+        try {
+            const event = await scheduleDB.get(numero);
+            if (event) {
+                const schedule = await interaction.guild.scheduledEvents.fetch(event.id);
+                await schedule.delete();
+            }
+        } catch {}
 
         await scheduleDB.deleteSchedule(numero);
         return await interaction.reply({ content: 'L\'événement a bien été supprimé.', ephemeral: true });
