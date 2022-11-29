@@ -43,11 +43,11 @@ module.exports = {
 
         async function endQuiz(channel, id) {
             await scheduleDB.setInactive(id);
+            await scheduleDB.deleteSchedule(id);
             if(await global.deleteChannel(id, channel)) {
                 await recordDB.insertRecord(participants.length, 'event');
                 participants = [];
             }
-            await scheduleDB.deleteSchedule(id);
         }
 
         async function createQuiz(channel, id) {
