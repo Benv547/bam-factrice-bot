@@ -52,10 +52,13 @@ module.exports = {
 
         const date_with_hour_start = date_value + ' ' + hour_start_value + ':00+01:00';
         const date_with_hour_end = date_value + ' ' + hour_end_value + ':00+01:00';
-
-
         const date_start = new Date(date_with_hour_start);
         const date_end = new Date(date_with_hour_end);
+
+        const date_with_hour_start_db = date_value + ' ' + hour_start_value + ':00';
+        const date_with_hour_end_db = date_value + ' ' + hour_end_value + ':00';
+        const date_start_db = new Date(date_with_hour_start_db);
+        const date_end_db = new Date(date_with_hour_end_db);
 
         if (date_start > date_end) {
             return await interaction.reply({ content: 'L\'heure de début doit être inférieure à l\'heure de fin.', ephemeral: true });
@@ -92,7 +95,7 @@ module.exports = {
             image: image,
         });
 
-        await scheduleDB.createSchedule(schedule.id, name, date_start, date_end);
+        await scheduleDB.createSchedule(schedule.id, name, date_start_db, date_end_db);
 
         return await interaction.reply({ content: 'L\'événement a bien été ajouté le ' + old_date_value + ' de ' + hour_start_value + ' à ' + hour_end_value + '.', ephemeral: true });
     }
