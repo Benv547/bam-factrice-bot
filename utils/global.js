@@ -19,11 +19,13 @@ module.exports = {
             parent: categoryEvent
         });
 
-        await guild.scheduledEvents.edit(id, {
-            entityMetadata: {
-                location: '<#' + channel.id + '>',
-            },
-        })
+        try {
+            await guild.scheduledEvents.edit(id, {
+                entityMetadata: {
+                    location: '<#' + channel.id + '>',
+                },
+            })
+        } catch {}
 
         // Set cooldown
         await channel.setRateLimitPerUser(60);

@@ -30,7 +30,11 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
         const name = interaction.options.get('name').value;
-        const date_value = interaction.options.get('date').value;
+        const old_date_value = interaction.options.get('date').value;
+
+        const dateParts = old_date_value.split("/");
+        const date_value = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
+
         const hour_start_value = interaction.options.get('hour_start').value;
         const hour_end_value = interaction.options.get('hour_end').value;
 
@@ -46,8 +50,9 @@ module.exports = {
             return await interaction.reply({ content: 'Veuillez insérer une heure valide.', ephemeral: true });
         }
 
-        const date_with_hour_start = date_value + ' ' + hour_start_value + ':00';
-        const date_with_hour_end = date_value + ' ' + hour_end_value + ':00';
+        const date_with_hour_start = date_value + ' ' + hour_start_value + ':00+01:00';
+        const date_with_hour_end = date_value + ' ' + hour_end_value + ':00+01:00';
+
 
         const date_start = new Date(date_with_hour_start);
         const date_end = new Date(date_with_hour_end);
@@ -83,12 +88,12 @@ module.exports = {
             privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
             scheduledStartTime: date_start,
             scheduledEndTime: date_end,
-            description: 'Venez participer au **' + real_name + '** le **' + date_value + '** de **' + hour_start_value + ' à ' + hour_end_value + '** !\nN\'oubliez pas de **prendre la notification "EVENEMENT"** dans <#825800880095625236> pour être notifié lors du lancement.\n\nToutes les règles seront expliquées lors du début de l\'événement.\n(*Cet événement a été créé automatiquement par un bot.*)',
+            description: 'Venez participer au **' + real_name + '** le **' + old_date_value + '** de **' + hour_start_value + ' à ' + hour_end_value + '** !\nN\'oubliez pas de **prendre la notification "EVENEMENT"** dans <#825800880095625236> pour être notifié lors du lancement.\n\nToutes les règles seront expliquées lors du début de l\'événement.\n(*Cet événement a été créé automatiquement par un bot.*)',
             image: image,
         });
 
         await scheduleDB.createSchedule(schedule.id, name, date_start, date_end);
 
-        return await interaction.reply({ content: 'L\'événement a bien été ajouté le ' + date_value + ' de ' + hour_start_value + ' à ' + hour_end_value + '.', ephemeral: true });
+        return await interaction.reply({ content: 'L\'événement a bien été ajouté le ' + old_date_value + ' de ' + hour_start_value + ' à ' + hour_end_value + '.', ephemeral: true });
     }
 };
