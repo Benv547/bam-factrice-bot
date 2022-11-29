@@ -21,6 +21,7 @@ const welcome = 'Bienvenue à vous, **jeunes entrepreneurs** !\n\n' +
 const channel_name = '📈│bourse';
 const event_name = 'La bourse de Bouteille à la mer';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/chart-increasing_1f4c8.png';
+const image = null;
 
 module.exports = {
     create: async (guild, id) => {
@@ -28,12 +29,10 @@ module.exports = {
         // Set event active
         await scheduleDB.setActive(id);
 
-        const image = null;
-
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 2) + ':R> !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -83,7 +82,7 @@ module.exports = {
                         emoji = '📉';
                     }
 
-                    let embed = global.createFullEmbed('La bourse est ouverte', `${emoji} La valeur de l'action est de **${start}€**`, null, null, null, 'Vous avez 1 minute pour acheter ou vendre des actions', false);
+                    let embed = global.createFullEmbed('La bourse est ouverte', `${emoji} La valeur de l'action est de **${start}€**\n\n` + '(Changement de la valeur de l\'action <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 1) + ':R>)', null, null, null, null, false);
                     const row = new ActionRowBuilder()
                         .addComponents(
                             new ButtonBuilder()
@@ -105,8 +104,6 @@ module.exports = {
             }
         }
 
-        turn = 5;
-        start = 100;
         setTimeout(async () => {
             await createBourse(channel, id);
         }, 1000 * 60);

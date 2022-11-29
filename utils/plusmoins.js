@@ -21,6 +21,7 @@ const welcome = 'Bienvenue dans le jeu du **plus ou moins** !\n\n' +
 const channel_name = '🧮│plus_ou_moins';
 const event_name = 'Plus ou Moins';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/abacus_1f9ee.png';
+const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
 
 module.exports = {
     create: async (guild, id) => {
@@ -28,12 +29,10 @@ module.exports = {
         // Set event active
         await scheduleDB.setActive(id);
 
-        const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
-
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 2) + ':R> !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -45,7 +44,7 @@ module.exports = {
             const color = playing_card_color[Math.floor(Math.random() * playing_card_color.length)];
 
             // create the embed
-            const embed = global.createFullEmbed(event_name, `La carte est le **${value} de ${color}**, quelle sera la suivante ?`, null, null, null, 'Vous avez 3 minutes pour répondre', false);
+            const embed = global.createFullEmbed(event_name, `La carte est le **${value} de ${color}**, quelle sera la suivante ?\n\n` + '(Résultat révélé <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 3) + ':R>)', null, null, null, null, false);
             const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()

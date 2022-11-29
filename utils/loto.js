@@ -12,8 +12,9 @@ const mise = 100;
 const number = 5;
 const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
     '- Vous devez remplir **une grille de ' + number + ' nombres** allant de **1 à 99** séparés par des tirets\n' +
-    '- Vous ne pouvez pas mettre deux fois le même nombre\n' +
-    '- Une seule grille par personne\n';
+    '- Vous ne pouvez pas mettre plusieurs fois le même nombre\n' +
+    '- Une seule grille par personne\n' +
+    '(*Exemple: 1 - 2 - 3 - 4 - 5*)';
 const welcome = 'Bienvenue dans le loto de **Bouteille à la mer** !\n\n' +
     'Vous êtes ici pour tenter de gagner de l\'argent.\n' +
     'Pour cela, vous devez **remplir une grille de ' + number + ' nombres** allant de **1 à 99**.\n' +
@@ -22,6 +23,7 @@ const welcome = 'Bienvenue dans le loto de **Bouteille à la mer** !\n\n' +
 const channel_name = '💸│loto';
 const event_name = 'Loto';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/money-with-wings_1f4b8.png';
+const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
 
 module.exports = {
     create: async (guild, id) => {
@@ -29,12 +31,10 @@ module.exports = {
         // Set event active
         await scheduleDB.setActive(id);
 
-        const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
-
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer dans 2 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain tour va commencer <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 2) + ':R> !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -42,7 +42,7 @@ module.exports = {
         setTimeout(async () => {
 
             // create the embed
-            const embed = global.createFullEmbed(event_name, `**Le tirage sera effectué dans 5 minutes !**`, null, null, null, null, false);
+            const embed = global.createFullEmbed(event_name, '**Tirage effectué <t:' +  (Math.round(new Date().getTime() / 1000) + 60 * 5) + ':R> !**', null, null, null, null, false);
             const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -98,8 +98,8 @@ module.exports = {
                         }
 
                         if (count > 0) {
-                            texte += `📈 <@${response.id_user}> a gagné ${mise*(2 * count * count)} pièces d'or !\n`;
-                            await orAction.increment(response.id_user, mise * (2 * count * count));
+                            texte += `📈 <@${response.id_user}> a gagné ${mise * Math.round(Math.exp(1.5 * count))} pièces d'or !\n`;
+                            await orAction.increment(response.id_user, mise * Math.round(Math.exp(1.5 * count)));
                         } else {
                             texte += `📉 <@${response.id_user}> a perdu ${mise} pièces d'or !\n`;
                         }

@@ -24,6 +24,7 @@ const welcome = 'Bienvenue dans **le quiz de Bouteille à la mer** !\n\n' +
 const channel_name = '🙋️│quiz';
 const event_name = 'Le quiz';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/person-raising-hand_1f64b.png';
+const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
 
 module.exports = {
     create: async (guild, id) => {
@@ -32,12 +33,10 @@ module.exports = {
         await scheduleDB.setActive(id);
         const event = await scheduleDB.get(id);
 
-        const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
-
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain quiz va commencer dans 5 minutes !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le prochain quiz va commencer <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 5) + ':R> !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
@@ -71,7 +70,7 @@ module.exports = {
                     }
 
                     const correctAnswer = answers[question.correct_answer-1];
-                    const embed = global.createFullEmbed(`Question ${currentQuestion + 1}`, question.question + ans, null, question.image_url, null, 'Vous avez ' + question.delay + ' secondes pour répondre !', false);
+                    const embed = global.createFullEmbed(`Question ${currentQuestion + 1}`, question.question + ans + '\n\n(Réponse révélée <t:' + (Math.round(new Date().getTime() / 1000) + question.delay) + ':R>)', null, question.image_url, null, null, false);
                     const message = await channel.send({ embeds: [embed], components: [row] });
 
                     setTimeout(async () => {

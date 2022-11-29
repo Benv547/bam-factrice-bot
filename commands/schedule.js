@@ -68,19 +68,20 @@ module.exports = {
         let image = null;
         if (name === 'plusmoins') {
             image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
-            real_name = 'Plus/Moins';
+            real_name = 'Jeu du Plus/Moins';
         }
         else if (name === 'justeprix') {
-            // image
-            real_name = 'Juste prix';
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1047240491974021120/Juste_Prix.png';
+            real_name = 'Jeu du Juste prix';
         }
         else if (name === 'bourse') {
             // image
+            real_name = 'Jeu de la Bourse';
         }
         else if (name === 'loto') {
             image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
+            real_name = 'Jeu du Loto';
         }
-        real_name = real_name.charAt(0).toUpperCase() + real_name.slice(1);
 
         const schedule = await interaction.guild.scheduledEvents.create({
             name: real_name,
