@@ -11,7 +11,7 @@ let participants = [];
 const mise = 100;
 const number = 5;
 const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
-    '- Vous devez remplir **une grille de ' + number + ' nombres** allant de **1 à 99** séparés par des tirets\n' +
+    '- Vous devez remplir **une grille de ' + number + ' nombres** de **1 à 99** séparés par des tirets\n' +
     '- Vous ne pouvez pas mettre plusieurs fois le même nombre\n' +
     '- Une seule grille par personne\n' +
     '(*Exemple: 1 - 2 - 3 - 4 - 5*)';
