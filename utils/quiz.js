@@ -44,7 +44,8 @@ module.exports = {
             await scheduleDB.setInactive(id);
             await scheduleDB.deleteSchedule(id);
             if(await global.deleteChannel(id, channel)) {
-                await recordDB.insertRecord(participants.length, 'event');
+                const schedule = await scheduleDB.get(id);
+                await recordDB.insertRecordWithDate(participants.length, 'event', schedule.start);
                 participants = [];
             }
         }

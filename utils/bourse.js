@@ -60,7 +60,8 @@ module.exports = {
             await scheduleDB.setValue(id, null);
             await scheduleDB.setInactive(id);
             if(await global.deleteChannel(id, channel)) {
-                await recordDB.insertRecord(participants.length, 'event');
+                const schedule = await scheduleDB.get(id);
+                await recordDB.insertRecordWithDate(participants.length, 'event', schedule.start);
                 participants = [];
             }
             await responseDB.deleteAllResponses(id);
@@ -73,7 +74,7 @@ module.exports = {
                     const oldStart = start;
 
                     start = start + Math.floor(Math.random() * 50) - 25;
-                    start = Math.max(start, 0);
+                    start = Math.max(start, 25);
                     start = Math.min(start, 1000);
                     await scheduleDB.setValue(id, start);
 
