@@ -28,11 +28,13 @@ module.exports = {
 
         const event = events[0];
         let responseValue = 0;
+        let responseGain = 0;
         const response = await responseDB.getUserResponse(event.id, interaction.user.id);
         if (!response) {
-            await responseDB.createResponse(event.id, interaction.user.id, responseValue);
+            await responseDB.createResponse(event.id, interaction.user.id, responseValue + ';' + responseGain);
         } else {
-            responseValue = parseInt(response.response);
+            responseValue = parseInt(response.response.split(';')[0]);
+            responseGain = parseInt(response.response.split(';')[1]);
         }
 
         const mise = parseInt(event.value) * value;
@@ -40,15 +42,15 @@ module.exports = {
             if (!await orAction.reduce(interaction.user.id, mise)) {
                 return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} pièce(s) d'or**.`, ephemeral: true});
             }
-            await responseDB.updateResponse(event.id, interaction.user.id, responseValue + value);
-            return await interaction.reply({content: `Vous avez acheté **${value}** action(s) pour **${mise}** pièce(s) d'or.\nVous avez maintenant **${responseValue + value}** action(s) en votre possession.`, ephemeral: true});
+            await responseDB.updateResponse(event.id, interaction.user.id, (responseValue + value) + ';' + (responseGain - mise));
+            return await interaction.reply({content: `Vous avez acheté **${value}** action(s) pour **${mise}** pièce(s) d'or.\nVous avez maintenant **${responseValue + value}** action(s) et votre gain est de **${responseGain - mise}** pièce(s) d'or.`, ephemeral: true});
         } else {
             if (responseValue < value) {
                 return await interaction.reply({content: `Vous ne pouvez pas vendre plus que ce que vous avez acheté.`, ephemeral: true});
             }
             await orAction.increment(interaction.user.id, mise);
-            await responseDB.updateResponse(event.id, interaction.user.id, responseValue - value);
-            return await interaction.reply({content: `Vous avez vendu **${value}** action(s) pour **${mise}** pièce(s) d'or.\nVous avez maintenant **${responseValue - value}** action(s) en votre possession.`, ephemeral: true});
+            await responseDB.updateResponse(event.id, interaction.user.id, (responseValue - value) + ';' + (responseGain + mise));
+            return await interaction.reply({content: `Vous avez vendu **${value}** action(s) pour **${mise}** pièce(s) d'or.\nVous avez maintenant **${responseValue - value}** action(s) et votre gain est de **${responseGain + mise}** pièce(s) d'or.`, ephemeral: true});
         }
     }
 };

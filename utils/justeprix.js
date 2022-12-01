@@ -1,7 +1,6 @@
 const global = require('./global.js');
 const scheduleDB = require("../database/schedule");
 const responseDB = require("../database/response");
-const recordDB = require("../database/record");
 const {ActionRowBuilder, ButtonBuilder} = require("discord.js");
 
 let participants = [];
@@ -82,9 +81,7 @@ module.exports = {
 
                 await scheduleDB.setValue(id, null);
                 await scheduleDB.setInactive(id);
-                if(await global.deleteChannel(id, channel)) {
-                    const schedule = await scheduleDB.get(id);
-                    await recordDB.insertRecordWithDate(participants.length, 'event', schedule.start);
+                if(await global.deleteChannel(id, channel, participants)) {
                     participants = [];
                 }
                 await responseDB.deleteAllResponses(id);

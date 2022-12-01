@@ -1,6 +1,7 @@
 const { categoryEvent } = require('../config.json');
 const { ChannelType, EmbedBuilder } = require('discord.js');
 const scheduleDB = require("../database/schedule");
+const recordDB = require("../database/record");
 
 module.exports = {
     name: 'global',
@@ -43,9 +44,12 @@ module.exports = {
 
         return channel;
     },
-    deleteChannel: async (id, channel) => {
+    deleteChannel: async (id, channel, participants) => {
+
+        const schedule = await scheduleDB.get(id);
         await scheduleDB.deletePastSchedules();
         if (await scheduleDB.get(id) === null) {
+            await recordDB.insertRecordWithDate(participants.length, 'event', schedule.start);
             await channel.send({ content: '** **\n👋 **L\'événement est terminé** et le salon va être supprimé.\nL\'équipe de Bouteille à la Mer vous remercie de votre participation !' });
             // wait 5 minutes
             setTimeout(async () => {
