@@ -21,7 +21,7 @@ const welcome = 'Bienvenue à vous, **jeunes entrepreneurs** !\n\n' +
 const channel_name = '📈│bourse';
 const event_name = 'La bourse de Bouteille à la mer';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/chart-increasing_1f4c8.png';
-const image = null;
+const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1047549105544634378/Bourse.png';
 
 module.exports = {
     create: async (guild, id) => {

@@ -75,7 +75,7 @@ module.exports = {
             real_name = 'Jeu du Juste prix';
         }
         else if (name === 'bourse') {
-            // image
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1047549105544634378/Bourse.png';
             real_name = 'Jeu de la Bourse';
         }
         else if (name === 'loto') {
