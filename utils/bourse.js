@@ -54,7 +54,7 @@ module.exports = {
                 }
             }
 
-            let embed = global.createFullEmbed('La bourse est terminée', `Les dernières actions ont été vendues à **${start} pièces d'or l'unité**.`, thumbnail, null, null, null, false);
+            let embed = global.createFullEmbed('La bourse est terminée', `Les dernières actions ont été vendues à **${start} <:piece:1045638309235404860> l'unité**.`, thumbnail, null, null, null, false);
             await channel.send({ embeds: [embed] });
 
             await scheduleDB.setValue(id, null);
@@ -83,7 +83,7 @@ module.exports = {
                         emoji = '📉';
                     }
 
-                    let embed = global.createFullEmbed('La bourse est ouverte', `${emoji} La valeur de l'action est de **${start}€**\n\n` + '(Changement de la valeur de l\'action <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 1) + ':R>)', null, null, null, null, false);
+                    let embed = global.createFullEmbed('La bourse est ouverte', `${emoji} La valeur de l'action est de **${start}** <:piece:1045638309235404860>\n\n` + '(Changement de la valeur de l\'action <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 1) + ':R>)', null, null, null, null, false);
                     const row = new ActionRowBuilder()
                         .addComponents(
                             new ButtonBuilder()
@@ -101,10 +101,17 @@ module.exports = {
                     await createBourse(channel, id);
                 }, 1000 * 60);
             } else {
-                await endBourse(channel, id);
+                start = start + Math.floor(Math.random() * 50) - 25;
+                start = Math.max(start, 25);
+                start = Math.min(start, 1000);
+                setTimeout(async () => {
+                    await endBourse(channel, id);
+                }, 1000 * 60);
             }
         }
 
+        turn = 10;
+        start = 100;
         setTimeout(async () => {
             await createBourse(channel, id);
         }, 1000 * 60);
