@@ -25,6 +25,7 @@ module.exports = {
                 entityMetadata: {
                     location: '<#' + channel.id + '>',
                 },
+                status: 2
             })
         } catch {}
 
@@ -47,6 +48,9 @@ module.exports = {
     deleteChannel: async (id, channel, participants) => {
 
         const schedule = await scheduleDB.get(id);
+        if (schedule.type === 'quiz') {
+            await scheduleDB.deleteSchedule(id);
+        }
         await scheduleDB.deletePastSchedules();
         if (await scheduleDB.get(id) === null) {
             await recordDB.insertRecordWithDate(participants.length, 'event', schedule.start);

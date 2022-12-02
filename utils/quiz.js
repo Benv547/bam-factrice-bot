@@ -8,6 +8,8 @@ const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 let participants = [];
 
+let scores = [];
+
 let questions = [];
 let currentQuestion = 0;
 let gain = 100;
@@ -21,7 +23,7 @@ const welcome = 'Bienvenue dans **le quiz de Bouteille à la mer** !\n\n' +
     'Plus vous aurez de bonnes réponses, plus vous gagnerez d\'argent.\n\n' +
     'Bonne chance !';
 const channel_name = '🙋️│quiz';
-const event_name = 'Le quiz';
+const event_name = 'Le quiz de Bouteille à la mer';
 const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/person-raising-hand_1f64b.png';
 const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
 
@@ -35,15 +37,27 @@ module.exports = {
         // Create channel
         const channel = await global.createChannel(guild, channel_name, welcome, image, id);
         // Create embed
-        const embed = global.createFullEmbed(event_name, '**Le prochain quiz va commencer <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 5) + ':R> !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
+        const embed = global.createFullEmbed(event_name, '**Le quiz va commencer <t:' + (Math.round(new Date().getTime() / 1000) + 60 * 5) + ':R> !**\n\n__**Rappel des règles :**__\n' + rules, thumbnail, null, null, null, false);
         // Send embed
         await channel.send({ embeds: [embed] });
 
         async function endQuiz(channel, id) {
-            await scheduleDB.setInactive(id);
-            await scheduleDB.deleteSchedule(id);
+
+            scores = scores.sort((a, b) => b.score - a.score);
+
+            let messages = '';
+            for (let i = 0; i < scores.length; i++) {
+                messages += '**' + (i + 1) + '.** <@' + scores[i].id + '> avec **' + scores[i].score + '** bonne(s) réponse(s) !\n';
+            }
+
+            const embed = global.createFullEmbed(event_name, '**Le quiz est terminé !**\n\n__**Résultats :**__\n' + messages, thumbnail, null, null, null, false);
+            await channel.send({ embeds: [embed] });
+
             if(await global.deleteChannel(id, channel, participants)) {
                 participants = [];
+                scores = [];
+                questions = [];
+                currentQuestion = 0;
             }
         }
 
@@ -53,10 +67,11 @@ module.exports = {
                     const question = questions[currentQuestion];
                     let answers = question.answers.split(';');
 
-                    let ans = "\n\n";
+                    let ans = "";
 
                     let row = new ActionRowBuilder();
                     if (answers.length > 1) {
+                        ans = "\n\n";
                         const emojiLetters = ['🇦', '🇧', '🇨', '🇩'];
                         const letters = ['A', 'B', 'C', 'D'];
                         for (let i = 0; i < answers.length; i++) {
@@ -76,19 +91,28 @@ module.exports = {
                         const responses = await responseDB.getAllResponses(id);
                         if (responses && responses.length > 0) {
                             for (const response of responses) {
+                                let correct = false;
                                 if (answers.length > 1) {
                                     const value = parseInt(response.response) + 1;
                                     if (value === question.correct_answer) {
-                                        // Add money to user
-                                        await orAction.increment(response.id_user, gain);
-                                        users += `<@${response.id_user}>\n`;
+                                        correct = true;
                                     }
                                 } else {
                                     if (response.response.toLowerCase() === correctAnswer.toLowerCase()) {
-                                        // Add money to user
-                                        await orAction.increment(response.id_user, gain);
-                                        users += `<@${response.id_user}>\n`;
+                                        correct = true;
                                     }
+                                }
+
+                                if (correct) {
+                                    await orAction.increment(response.id_user, gain);
+
+                                    // check if user already exists
+                                    if (scores.find(user => user.id === response.id_user)) {
+                                        scores.find(user => user.id === response.id_user).score++;
+                                    } else {
+                                        scores.push({ id: response.id_user, score: 1 });
+                                    }
+                                    users += `<@${response.id_user}>\n`;
                                 }
 
                                 if (participants.includes(response.id_user) === false) {
