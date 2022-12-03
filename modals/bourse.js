@@ -40,17 +40,17 @@ module.exports = {
         const mise = parseInt(event.value) * value;
         if (bourseType === 'buy') {
             if (!await orAction.reduce(interaction.user.id, mise)) {
-                return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} pièce(s) d'or**.`, ephemeral: true});
+                return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} <:piece:1045638309235404860>**.`, ephemeral: true});
             }
             await responseDB.updateResponse(event.id, interaction.user.id, (responseValue + value) + ';' + (responseGain - mise));
-            return await interaction.reply({content: `Vous avez acheté **${value}** action(s) pour **${mise}** pièce(s) d'or.\nVous avez maintenant **${responseValue + value}** action(s) et votre gain est de **${responseGain - mise}** pièce(s) d'or.`, ephemeral: true});
+            return await interaction.reply({content: `Vous avez acheté **${value}** action(s) pour **${mise}** <:piece:1045638309235404860>.\nVous avez maintenant **${responseValue + value}** action(s) et votre gain est de **${responseGain - mise}** <:piece:1045638309235404860>.`, ephemeral: true});
         } else {
             if (responseValue < value) {
                 return await interaction.reply({content: `Vous ne pouvez pas vendre plus que ce que vous avez acheté.`, ephemeral: true});
             }
             await orAction.increment(interaction.user.id, mise);
             await responseDB.updateResponse(event.id, interaction.user.id, (responseValue - value) + ';' + (responseGain + mise));
-            return await interaction.reply({content: `Vous avez vendu **${value}** action(s) pour **${mise}** pièce(s) d'or.\nVous avez maintenant **${responseValue - value}** action(s) et votre gain est de **${responseGain + mise}** pièce(s) d'or.`, ephemeral: true});
+            return await interaction.reply({content: `Vous avez vendu **${value}** action(s) pour **${mise}** <:piece:1045638309235404860>.\nVous avez maintenant **${responseValue - value}** action(s) et votre gain est de **${responseGain + mise}** <:piece:1045638309235404860>.`, ephemeral: true});
         }
     }
 };

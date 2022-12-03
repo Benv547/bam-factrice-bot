@@ -16,7 +16,7 @@ let gain = 100;
 const rules = '- Les réponses peuvent être à **choix ou à réponses libres**\n' +
     '- Certaines questions possèdent une image, soyez attentifs !\n' +
     '- Vous avez un **temps limité pour répondre** à chaque question\n' +
-    '- Chaque bonne réponse vous rapporte **' + gain + ' pièces d\'or**\n';
+    '- Chaque bonne réponse vous rapporte **' + gain + ' <:piece:1045638309235404860>**\n';
 const welcome = 'Bienvenue dans **le quiz de Bouteille à la mer** !\n\n' +
     'Vous êtes ici pour tenter de gagner de l\'argent.\n' +
     'Pour cela, vous devez répondre à des questions.\n' +

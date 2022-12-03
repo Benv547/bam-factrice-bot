@@ -29,7 +29,7 @@ module.exports = {
         }
 
         if (!await orAction.reduce(interaction.user.id, mise)) {
-            return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} pièce(s) d'or**.`, ephemeral: true});
+            return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} <:piece:1045638309235404860>**.`, ephemeral: true});
         }
 
 
@@ -48,7 +48,7 @@ module.exports = {
         const eventValue = parseInt(event.value);
         if (eventValue === value) {
             await orAction.increment(interaction.user.id, gain);
-            await interaction.reply({content: `Bravo ! Vous avez trouvé le juste prix ! Vous gagnez **${gain} pièce(s) d'or**.`, ephemeral: true});
+            await interaction.reply({content: `Bravo ! Vous avez trouvé le juste prix ! Vous gagnez **${gain} <:piece:1045638309235404860>**.`, ephemeral: true});
         } else if (eventValue > value) {
             await interaction.reply({content: `Le juste prix est plus grand que ${value}.`, ephemeral: true});
         } else {

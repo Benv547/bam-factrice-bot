@@ -11,7 +11,7 @@ const playing_card_color = ['PIQUE', 'COEUR', 'CARREAU', 'TREFLE'];
 let participants = [];
 
 const mise = 100;
-const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
+const rules = '- Vous devez miser **' + mise + ' <:piece:1045638309235404860>** pour jouer\n' +
     '- **l\'AS** est la carte la moins forte et le **ROI** la plus forte\n' +
     '- Les couleurs n\'ont aucune importance\n';
 const welcome = 'Bienvenue dans le jeu du **plus ou moins** !\n\n' +
@@ -85,18 +85,34 @@ module.exports = {
                         resp = "moins";
                     }
 
+                    let bonus = 0;
+                    let nbWinners = 0;
                     for (const response of responses) {
-                        if (response.response === resp) {
-                            texte += `📈 <@${response.id_user}> a gagné ${mise} pièces d'or !\n`;
-                            await orAction.increment(response.id_user, mise*2);
+                        if (response.response !== resp) {
+                            texte += `📉 <@${response.id_user}> a perdu ${mise} <:piece:1045638309235404860> !\n`;
+                            bonus += mise;
                         } else {
-                            texte += `📉 <@${response.id_user}> a perdu ${mise} pièces d'or !\n`;
+                            nbWinners++;
                         }
 
                         if (participants.includes(response.id_user) === false) {
                             participants.push(response.id_user);
                         }
                     }
+
+                    let textBonus = "";
+                    if (nbWinners > 0) {
+                        bonus = Math.round(bonus / nbWinners);
+                        textBonus = ` et **${bonus} <:piece:1045638309235404860>** de bonus`;
+                    }
+
+                    for (const response of responses) {
+                        if (response.response === resp) {
+                            texte += `📈 <@${response.id_user}> a gagné ${mise} <:piece:1045638309235404860> ${textBonus} !\n`;
+                            await orAction.increment(response.id_user, (mise * 2) + bonus);
+                        }
+                    }
+
                     embed.setDescription(texte);
                 } else {
                     embed.setDescription('Personne n\'a joué !');

@@ -16,7 +16,7 @@ let turn = nbTurns;
 let start = 100;
 const rules = '- Vous avez **' + turn + ' tours** pour gagner le plus d\'argent possible\n' +
     '- Vous pouvez acheter ou vendre autant d\'actions que vous voulez à chaque tour\n' +
-    '- Vous devez posséder les pièces d\'or nécessaires pour acheter des actions\n' +
+    '- Vous devez posséder les <:piece:1045638309235404860> nécessaires pour acheter des actions\n' +
     '- Toutes les actions achetées seront vendues automatiquement à la fin du dernier tour\n';
 const welcome = 'Bienvenue à vous, **jeunes entrepreneurs** !\n\n' +
     'Vous êtes ici pour **investir dans notre entreprise** et gagner de l\'argent.\n' +
@@ -56,9 +56,9 @@ module.exports = {
                     }
 
                     if (responseGain > 0) {
-                        message += '📈 <@' + response.id_user + '> a gagné **' + responseGain + ' pièces d\'or** !\n';
+                        message += '📈 <@' + response.id_user + '> a gagné **' + responseGain + ' <:piece:1045638309235404860>** !\n';
                     } else {
-                        message += '📉 <@' + response.id_user + '> a perdu **' + Math.abs(responseGain) + ' pièces d\'or** !\n';
+                        message += '📉 <@' + response.id_user + '> a perdu **' + Math.abs(responseGain) + ' <:piece:1045638309235404860>** !\n';
                     }
 
                     if (participants.includes(response.id_user) === false) {

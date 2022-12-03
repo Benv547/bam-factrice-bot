@@ -29,7 +29,7 @@ module.exports = {
         }
 
         if (!await orAction.reduce(interaction.user.id, mise)) {
-            return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} pièce(s) d'or**.`, ephemeral: true});
+            return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} <:piece:1045638309235404860>**.`, ephemeral: true});
         }
 
 

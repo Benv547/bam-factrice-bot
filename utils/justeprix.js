@@ -10,8 +10,8 @@ const gain = 500;
 const rules = '- Le but est de deviner un nombre entier **entre 1 et 100 000**\n' +
     '- Vous pouvez donner autant de proposition que vous voulez à chaque tour\n' +
     '- Vous avez **3 minutes** pour trouver le nombre\n' +
-    '- Chaque proposition vous coûte **' + mise + ' pièces d\'or**\n' +
-    '- Si vous trouvez le nombre, vous gagnez **' + gain + ' pièces d\'or**\n';
+    '- Chaque proposition vous coûte **' + mise + ' <:piece:1045638309235404860>**\n' +
+    '- Si vous trouvez le nombre, vous gagnez **' + gain + ' <:piece:1045638309235404860>**\n';
 const welcome = 'Bienvenue dans le **jeu du juste prix** !\n\n' +
     'Vous allez devoir **deviner le juste prix** que le bot a choisi.\n' +
     'Pour cela, vous devez donner des réponses et trouver le prix.\n\n' +
@@ -66,7 +66,7 @@ module.exports = {
                     for (const response of responses) {
                         const responseValue = parseInt(response.response);
                         if (responseValue === value) {
-                            texte += `📈 <@${response.id_user}> a gagné ${gain} pièces d'or !\n`;
+                            texte += `📈 <@${response.id_user}> a gagné ${gain} <:piece:1045638309235404860> !\n`;
                         }
 
                         if (participants.includes(response.id_user) === false) {

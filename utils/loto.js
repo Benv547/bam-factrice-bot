@@ -9,7 +9,7 @@ let participants = [];
 
 const mise = 100;
 const number = 5;
-const rules = '- Vous devez miser **' + mise + ' pièces d\'or** pour jouer\n' +
+const rules = '- Vous devez miser **' + mise + ' <:piece:1045638309235404860>** pour jouer\n' +
     '- Vous devez remplir **une grille de ' + number + ' nombres** de **1 à 99** séparés par des tirets\n' +
     '- Vous ne pouvez pas mettre plusieurs fois le même nombre\n' +
     '- Une seule grille par personne\n' +
@@ -97,10 +97,10 @@ module.exports = {
                         }
 
                         if (count > 0) {
-                            texte += `📈 <@${response.id_user}> a gagné ${mise * Math.round(Math.exp(1.5 * count))} pièces d'or !\n`;
+                            texte += `📈 <@${response.id_user}> a gagné ${mise * Math.round(Math.exp(1.5 * count))} <:piece:1045638309235404860> !\n`;
                             await orAction.increment(response.id_user, mise * Math.round(Math.exp(1.5 * count)));
                         } else {
-                            texte += `📉 <@${response.id_user}> a perdu ${mise} pièces d'or !\n`;
+                            texte += `📉 <@${response.id_user}> a perdu ${mise} <:piece:1045638309235404860> !\n`;
                         }
 
                         if (participants.includes(response.id_user) === false) {
