@@ -26,7 +26,8 @@ module.exports = {
         const dateParts = old_date_value.split("/");
         const date_value = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
 
-        const hour_start_value = interaction.options.get('hour_start').value;
+        let hour_start_value = interaction.options.get('hour_start').value;
+        hour_start_value = hour_start_value.replace('h', ':');
 
         // check if the date format is correct
         const date_regex = new RegExp('^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$');

@@ -104,12 +104,12 @@ module.exports = {
                     if (nbWinners > 0) {
                         bonus = Math.round(bonus / nbWinners);
                         textBonus = ` et **${bonus} <:piece:1045638309235404860>** de bonus`;
-                    }
 
-                    for (const response of responses) {
-                        if (response.response === resp) {
-                            texte += `📈 <@${response.id_user}> a gagné ${mise} <:piece:1045638309235404860> ${textBonus} !\n`;
-                            await orAction.increment(response.id_user, (mise * 2) + bonus);
+                        for (const response of responses) {
+                            if (response.response === resp) {
+                                texte += `📈 <@${response.id_user}> a gagné **${mise} <:piece:1045638309235404860>** ${textBonus} !\n`;
+                                await orAction.increment(response.id_user, (mise * 2) + bonus);
+                            }
                         }
                     }
 
