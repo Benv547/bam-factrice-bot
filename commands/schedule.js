@@ -53,8 +53,8 @@ module.exports = {
             return await interaction.reply({ content: 'Veuillez insérer une heure valide.', ephemeral: true });
         }
 
-        const date_with_hour_start = date_value + ' ' + hour_start_value + ':00+01:00';
-        const date_with_hour_end = date_value + ' ' + hour_end_value + ':00+01:00';
+        const date_with_hour_start = date_value + ' ' + hour_start_value + ':00+02:00';
+        const date_with_hour_end = date_value + ' ' + hour_end_value + ':00+02:00';
         const date_start = new Date(date_with_hour_start);
         const date_end = new Date(date_with_hour_end);
 
