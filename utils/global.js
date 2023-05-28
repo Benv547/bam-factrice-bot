@@ -30,7 +30,7 @@ module.exports = {
         } catch {}
 
         // Set cooldown
-        await channel.setRateLimitPerUser(60);
+        await channel.setRateLimitPerUser(5);
 
         // Send welcome message
         if (welcome_message) {
