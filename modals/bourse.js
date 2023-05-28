@@ -39,6 +39,9 @@ module.exports = {
 
         const mise = parseInt(event.value) * value;
         if (bourseType === 'buy') {
+            if (responseValue + value > 500) {
+                return await interaction.reply({content: `Vous ne pouvez pas acheter plus de 500 actions.`, ephemeral: true});
+            }
             if (!await orAction.reduce(interaction.user.id, mise)) {
                 return await interaction.reply({content: `Vous n'avez pas assez d'or pour jouer. Il vous faut **au moins ${mise} <:piece:1045638309235404860>**.`, ephemeral: true});
             }
