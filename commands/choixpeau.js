@@ -174,6 +174,7 @@ module.exports = {
         const message = await interaction.reply({
             content: question.question,
             components: [actionRow],
+            fetchReply: true,
             ephemeral: true
         });
 
