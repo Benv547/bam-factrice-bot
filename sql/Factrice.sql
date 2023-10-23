@@ -33,5 +33,11 @@ CREATE TABLE "Response" (
     "response" text NOT NULL
 );
 
+CREATE TABLE "Harry" (
+    "id_user" bigint NOT NULL,
+    "points" integer NOT NULL DEFAULT 0,
+    "house" varchar(255) NOT NULL DEFAULT 'Gryffindor'
+);
+
 ALTER TABLE "Question" ADD CONSTRAINT "fk_name_quiz" FOREIGN KEY ("quiz_name") REFERENCES "Quiz" ("quiz_name") ON DELETE CASCADE;
 ALTER TABLE "Response" ADD CONSTRAINT "Response_id_schedule_fkey" FOREIGN KEY ("id_schedule") REFERENCES "Schedule" ("id") ON DELETE CASCADE;
