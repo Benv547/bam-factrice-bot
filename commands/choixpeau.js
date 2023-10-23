@@ -80,7 +80,7 @@ const QUIZ_MAISON = [
             {
                 emoji: '🧹',
                 name: 'Potion de ratatinage',
-                value: 'Griffondor'
+                value: 'Gryffondor'
             }
         ]
     },
@@ -198,11 +198,13 @@ module.exports = {
                 await interaction.member.roles.add(role);
 
                 await harryDB.createHarryUser(interaction.user.id, 0, houses[random]);
+                collector.stop();
                 await i.reply({ content: `Tu es dans la maison ${houses[random]}.`, ephemeral: true});
-                return collector.stop();
+                return
             }
+            collector.stop();
             await this.displayNextQuestion(i, questions, index + 1, houseChoice);
-            return collector.stop();
+            return
         });
     }
 };
