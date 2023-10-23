@@ -15,8 +15,7 @@ const client = new Client({
         GatewayIntentBits.GuildPresences,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMembers
     ],
 });
 
@@ -42,7 +41,7 @@ client.on('interactionCreate', async interaction => {
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        // await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
 
@@ -117,7 +116,7 @@ client.on('interactionCreate', async interaction => {
                 await modal.execute(interaction);
             } catch (error) {
                 console.error(error);
-                await interaction.reply({ content: 'There was an error while executing the modal script !', ephemeral: true});
+                // await interaction.reply({ content: 'There was an error while executing the modal script !', ephemeral: true});
             }
         } else {
             return;
