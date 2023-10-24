@@ -16,12 +16,15 @@ module.exports = {
             if (user) {
                 await this.increment(user.id, parseInt(match[2]));
                 const dbUser = await harryDB.getHarryUser(user.id);
-                // wait between 30 and 60 minutes
+                if (!dbUser) {
+                    return;
+                }
+                // wait between 3 and 10 minutes
                 setTimeout(async (match, dbUser) => {
                     const embed = createFullEmbed('', '**' + match[2] + ' points** pour **' + dbUser.house + '** !', null, null, null, null, true);
                     const channel = await message.guild.channels.fetch(sendChannelID);
                     return await channel.send({ content: '', embeds: [embed] });
-                }, Math.floor(Math.random() * 1800000) + 1800000, match, dbUser);
+                }, Math.floor(Math.random() * (600000 - 180000 + 1) + 180000), match, dbUser);
             }
         }
         regex = /Member ([0-9]+) loose ([0-9]+) points/g;
@@ -30,12 +33,16 @@ module.exports = {
             const user = message.guild.members.cache.find(m => m.user.id === match[1]);
             if (user) {
                 await this.decrement(user.id, parseInt(match[2]));
-                // wait 30 minutes
+                const dbUser = await harryDB.getHarryUser(user.id);
+                if (!dbUser) {
+                    return;
+                }
+                // wait between 3 and 10 minutes
                 setTimeout(async () => {
                     const embed = createFullEmbed('',  match[2] + ' points **en moins** pour ' + dbUser.house, null, null, null, null, true);
                     const channel = await message.guild.channels.fetch(channelID);
                     return await channel.send({ content: '', embeds: [embed] });
-                }, 1800000);
+                }, Math.floor(Math.random() * (600000 - 180000 + 1) + 180000));
             }
         }
     },
