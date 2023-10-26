@@ -14,7 +14,7 @@ const EMOJI_BY_NAME = {
     'serpentard3': '<:serpentard3:1157338947354116146>',
     'serpentard4': '<:serpentard4:1157339170633682965>',
     'serpentard5': '<:serpentard5:1157339172630183957>',
-    'poufsouffle1': '<:poufsouffle1:1157338927846391841> ',
+    'poufsouffle1': '<:poufsouffle1:1157338927846391841>',
     'poufsouffle2': '<:poufsouffle2:1157338930157453392>',
     'poufsouffle3': '<:poufsouffle3:1157338931558363176>',
     'poufsouffle4': '<:poufsouffle4:1157338933202518146>',
@@ -24,7 +24,6 @@ const EMOJI_BY_NAME = {
     'serdaigle3': '<:serdaigle3:1157338941184294922>',
     'serdaigle4': '<:serdaigle4:1157338915104112670>',
     'serdaigle5': '<:serdaigle5:1157339168205180928>',
-
 }
 
 module.exports = {
@@ -39,7 +38,7 @@ module.exports = {
         }
 
         const pointsByHouse = await harryDB.getPointsByHouse();
-        const steps = [1000000000000, 1000000000000, 100000, 50000, 10000, 5000, 1000, 0, 0];
+        const steps = [1000000000000, 1000000000000, 100000, 50000, 10000, 1000, 0, 0, 0];
 
         let message = '';
         for (const i of [...Array(steps.length - 1).keys()]) {
