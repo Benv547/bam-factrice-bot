@@ -21,7 +21,7 @@ const welcome = 'Bienvenue dans le loto de **Bouteille à la mer** !\n\n' +
     'Bonne chance !';
 const channel_name = '💸│loto';
 const event_name = 'Loto';
-const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/money-with-wings_1f4b8.png';
+const thumbnail = 'https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f4b8.gif';
 const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
 
 module.exports = {

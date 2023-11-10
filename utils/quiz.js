@@ -24,7 +24,7 @@ const welcome = 'Bienvenue dans **le quiz de Bouteille à la mer** !\n\n' +
     'Bonne chance !';
 const channel_name = '🙋️│quiz';
 const event_name = 'Le quiz de Bouteille à la mer';
-const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/person-raising-hand_1f64b.png';
+const thumbnail = 'https://images.emojiterra.com/google/noto-emoji/unicode-15/color/256px/1f64b-2642.png';
 const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1046546979146178680/Quizz.png';
 
 module.exports = {

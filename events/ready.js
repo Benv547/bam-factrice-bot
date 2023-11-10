@@ -5,6 +5,7 @@ const justeprix = require("../utils/justeprix");
 const loto = require("../utils/loto");
 const bourse = require("../utils/bourse");
 const quiz = require("../utils/quiz");
+const machine = require("../utils/machine");
 
 module.exports = {
     name: 'ready',
@@ -32,6 +33,8 @@ module.exports = {
                         await bourse.create(guild, schedule.id);
                     } else if (schedule.type === 'quiz') {
                         await quiz.create(guild, schedule.id);
+                    } else if (schedule.type === 'machine') {
+                        await machine.create(guild, schedule.id);
                     }
                 }
             }
