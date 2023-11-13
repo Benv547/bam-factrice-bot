@@ -16,9 +16,9 @@ const welcome = 'Bienvenue dans le **jeu du juste prix** !\n\n' +
     'Vous allez devoir **deviner le juste prix** que le bot a choisi.\n' +
     'Pour cela, vous devez donner des réponses et trouver le prix.\n\n' +
     'Bonne chance !';
-const channel_name = '💰│juste_prix';
+const channel_name = '💳│juste_prix';
 const event_name = 'Le juste prix';
-const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/money-bag_1f4b0.png';
+const thumbnail = 'https://images.emojiterra.com/google/noto-emoji/unicode-15/color/256px/1f4b3.png';
 const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1047240491974021120/Juste_Prix.png';
 
 module.exports = {

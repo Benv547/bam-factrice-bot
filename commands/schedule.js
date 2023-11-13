@@ -15,6 +15,7 @@ module.exports = {
                     { name: 'Juste prix', value: 'justeprix' },
                     { name: 'Loto', value: 'loto' },
                     { name: 'Bourse', value: 'bourse' },
+                    { name: 'Machine à sous', value: 'machine'}
                 ))
         .addStringOption(option =>
             option.setName('date')
@@ -84,6 +85,10 @@ module.exports = {
         else if (name === 'loto') {
             image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
             real_name = 'Jeu du Loto';
+        }
+        else if (name === 'machine') {
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
+            real_name = 'Machine à sous';
         }
 
         const schedule = await interaction.guild.scheduledEvents.create({

@@ -19,7 +19,7 @@ const welcome = 'Bienvenue dans le jeu du **plus ou moins** !\n\n' +
     'Bonne chance !';
 const channel_name = '🧮│plus_ou_moins';
 const event_name = 'Plus ou Moins';
-const thumbnail = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/abacus_1f9ee.png';
+const thumbnail = 'https://images.emojiterra.com/google/noto-emoji/unicode-15/color/256px/1f9ee.png';
 const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045984968834306098/Plus_Ou_Moins.png';
 
 module.exports = {
