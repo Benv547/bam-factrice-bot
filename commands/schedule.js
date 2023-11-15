@@ -87,7 +87,7 @@ module.exports = {
             real_name = 'Jeu du Loto';
         }
         else if (name === 'machine') {
-            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1045985072555241572/Loto.png';
+            image = 'https://cdn.discordapp.com/attachments/1004073840093184000/1172697849054642226/machine_a_sous.png';
             real_name = 'Machine à sous';
         }
 
