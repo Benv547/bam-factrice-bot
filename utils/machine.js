@@ -50,11 +50,19 @@ const { ActionRowBuilder, ButtonBuilder, ComponentType } = require('discord.js')
 let participants = [];
 
 const mise = 100;
-const rules = '- Vous devez au minimum miser **' + mise + ' <:piece:1045638309235404860>** pour jouer\n';
+const rules = '- Vous devez au minimum miser **' + mise + ' <:piece:1045638309235404860>** pour jouer\n\n' +
+            '**Les gains sont les suivants :**\n' +
+            '- **🍒 x 2** : 2 x MISE\n' +
+            '- **🍫 x 2** : 3 x MISE\n' +
+            '- **🔥 x 2** : 4 x MISE\n' +
+            '- **🍋 x 3** : 1 x MISE\n' +
+            '- **🍒 x 3** : 5 x MISE\n' +
+            '- **🍫 x 3** : 10 x MISE\n' +
+            '- **🔥 x 3** : 50 x MISE\n';
 
 const welcome = 'Bienvenue dans le casino de **Bouteille à la mer** !\n\n' +
     'Vous êtes ici pour tenter de gagner de l\'argent.\n' +
-    'Pour cela, vous pourrez jouer sur différentes machines à sous.\n' +
+    'Pour cela, vous pourrez jouer sur différentes machines à sous.\n\n' +
     'Bonne chance !';
 const channel_name = '💸│casino';
 const event_name = 'Machines à sous';
@@ -67,7 +75,7 @@ const image = 'https://cdn.discordapp.com/attachments/1004073840093184000/117269
 // | 5 6 1 |
 //  \-----/
 //  |7 8 9|
-function displayMachineASous(mise) {
+function displayMachineASous(mise, gain_total = 0, mise_total = 0) {
     // Choose random number for each rouleau
     // And display other numbers around
 
@@ -99,7 +107,9 @@ function displayMachineASous(mise) {
     '\n';
     if (mise > 0) {
         machine += 'Mise : **' + mise + ' <:piece:1045638309235404860>**\n' +
-        'Gain : **' + win + ' <:piece:1045638309235404860>**\n';
+        'Gain : **' + win + ' <:piece:1045638309235404860>**\n\n' + 
+        'Mise total : **' + mise_total + ' <:piece:1045638309235404860>**\n' + 
+        'Gain total : **' + (gain_total + win) + ' <:piece:1045638309235404860>**\n';
     }
 
     return [machine, win];
@@ -163,7 +173,7 @@ module.exports = {
         // 1. Create a collector
         // 2. Send a message with the machine a sous display and button to reroll it
         // 3. When the button is clicked, reroll the machine a sous display
-        const collector = message.createMessageComponentCollector({ componentType: ComponentType.Button, time: 1000 * 60 * 5 });
+        const collector = message.createMessageComponentCollector({ componentType: ComponentType.Button, time: 1000 * 60 * 60 });
         collector.on('collect', async i => {
             if (i.customId === 'machine') {
 
@@ -203,7 +213,7 @@ module.exports = {
                 const message = await channel.send({ embeds: [embed], components: [row] });
 
                 // Create collector
-                const collector = message.createMessageComponentCollector({ componentType: ComponentType.Button, time: 1000 * 60 * 5 });
+                const collector = message.createMessageComponentCollector({ componentType: ComponentType.Button, time: 1000 * 60 * 60 });
                 // When the button is clicked, reroll the machine a sous display
                 collector.on('collect', async i => {
                     const customId_type = i.customId.split('_')[1];
@@ -212,7 +222,21 @@ module.exports = {
                         if (!await orAction.reduce(i.user.id, mise * miseMultiplier)) {
                             return await i.reply({ content: 'Vous n\'avez pas assez d\'argent pour jouer sur cette machine à sous.', ephemeral: true });
                         }
-                        const [machine, win] = displayMachineASous(mise * miseMultiplier);
+                        // get mise total and gain total from embed
+                        let mise_total = 0;
+                        let gain_total = 0;
+
+                        const description = message.embeds[0].description;
+                        const lines = description.split('\n');
+                        for (const line of lines) {
+                            if (line.startsWith('Mise total')) {
+                                mise_total = parseInt(line.split('**')[1]);
+                            } else if (line.startsWith('Gain total')) {
+                                gain_total = parseInt(line.split('**')[1]);
+                            }
+                        }
+
+                        const [machine, win] = displayMachineASous(mise * miseMultiplier, gain_total, mise_total + mise * miseMultiplier);
                         const embed = global.createFullEmbed("Machine à sous de " + i.user.username, machine, null, null, null, null, false);
                         if (win > 0) {
                             await orAction.increment(i.user.id, win);
@@ -226,21 +250,14 @@ module.exports = {
             await i.deferUpdate();
         });
 
-
-        // EVENT START IN 5 MINUTES
+        // wait 5 minute
         setTimeout(async () => {
 
-            // wait 5 minute
-            setTimeout(async () => {
-
-                await scheduleDB.setInactive(id);
-                if(await global.deleteChannel(id, channel, participants)) {
-                    participants = [];
-                }
-                await responseDB.deleteAllResponses(id);
-            }, 1000 * 60 * 5);
-
-
-        }, 1000 * 60 * 2);
+            await scheduleDB.setInactive(id);
+            if(await global.deleteChannel(id, channel, participants)) {
+                participants = [];
+            }
+            await responseDB.deleteAllResponses(id);
+        }, 1000 * 60 * 5);
     },
 };
