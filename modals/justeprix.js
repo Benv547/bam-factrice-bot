@@ -3,8 +3,8 @@ const responseDB = require("../database/response");
 const userDB = require("../database/user");
 const orAction = require("../utils/orAction");
 
-const mise = 10;
-const gain = 500;
+const mise = 5;
+const gain = 2500;
 
 module.exports = {
     name: 'justeprix',
